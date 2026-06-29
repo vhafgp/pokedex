@@ -9,7 +9,8 @@ domain glossary and the locked design decisions.
 ## Status
 
 - **L1 — typed fetch core** — fetch one Pokémon, validated into a Pydantic model.
-- L2 — RFC-9111 caching · L3 — async batch ETL · L4 — SQLite snapshot + Typer CLI · L5 — agent.
+- **L2 — RFC-9111 caching** — transparent Hishel disk cache; repeat lookups skip the network.
+- L3 — async batch ETL · L4 — SQLite snapshot + Typer CLI · L5 — agent.
 
 ## Quickstart
 
