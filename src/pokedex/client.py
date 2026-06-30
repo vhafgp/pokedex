@@ -24,3 +24,14 @@ def make_client(cache_dir: Path | None = None) -> httpx.Client:
         storage=storage,
         controller=controller,
     )
+
+
+def make_async_client(cache_dir: Path | None = None) -> httpx.AsyncClient:
+    storage = hishel.AsyncFileStorage(base_path=cache_dir or DEFAULT_CACHE_DIR)
+    controller = hishel.Controller(cacheable_methods=["GET"])
+    return hishel.AsyncCacheClient(
+        base_url=BASE_URL,
+        timeout=10.0,
+        storage=storage,
+        controller=controller,
+    )
