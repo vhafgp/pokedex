@@ -1,6 +1,9 @@
-"""Typed ingest models. Pydantic validation runs here, at the API boundary, and nowhere else."""
+"""Typed models: Pydantic validates API JSON at the ingest edge; a plain dataclass carries the
+trusted snapshot read path (no re-validation)."""
 
 from __future__ import annotations
+
+from dataclasses import dataclass
 
 from pydantic import BaseModel, ConfigDict
 
@@ -29,3 +32,16 @@ class Pokemon(BaseModel):
             abilities=tuple(a["ability"]["name"] for a in raw["abilities"]),
             stats={s["stat"]["name"]: s["base_stat"] for s in raw["stats"]},
         )
+
+
+@dataclass(frozen=True, slots=True)
+class PokemonRecord:
+    """A Pokémon read back from the local snapshot (trusted data, no validation)."""
+
+    id: int
+    name: str
+    height: int
+    weight: int
+    types: tuple[str, ...]
+    abilities: tuple[str, ...]
+    stats: dict[str, int]
