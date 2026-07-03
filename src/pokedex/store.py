@@ -9,6 +9,8 @@ from pathlib import Path
 
 from pokedex.models import PokemonRecord
 
+DEFAULT_DB = Path.home() / ".cache" / "pokedex" / "pokedex.sqlite"
+
 
 def _record(conn: sqlite3.Connection, row: tuple) -> PokemonRecord:
     pid, name, height, weight, stats = row
@@ -51,5 +53,13 @@ def search_by_type(db_path: Path, type_name: str) -> list[PokemonRecord]:
             "FROM pokemon p JOIN pokemon_type t ON t.pokemon_id = p.id "
             "WHERE t.type = ? ORDER BY p.id",
             (type_name.lower(),),
+        ).fetchall()
+        return [_record(conn, row) for row in rows]
+
+
+def all_records(db_path: Path) -> list[PokemonRecord]:
+    with closing(sqlite3.connect(db_path)) as conn:
+        rows = conn.execute(
+            "SELECT id, name, height, weight, stats FROM pokemon ORDER BY id"
         ).fetchall()
         return [_record(conn, row) for row in rows]

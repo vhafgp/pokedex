@@ -11,12 +11,10 @@ import typer
 from pokedex.client import make_async_client
 from pokedex.fetch import fetch_all, list_pokemon_names
 from pokedex.snapshot import build_snapshot
+from pokedex.store import DEFAULT_DB, search_by_type
 from pokedex.store import get as store_get
-from pokedex.store import search_by_type
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
-
-DEFAULT_DB = Path.home() / ".cache" / "pokedex" / "pokedex.sqlite"
 
 DbOption = Annotated[Path, typer.Option(help="Snapshot path.")]
 
@@ -37,6 +35,15 @@ def build(
     pokemon = asyncio.run(_fetch())
     build_snapshot(db, pokemon)
     typer.echo(f"Built snapshot: {len(pokemon)} Pokémon -> {db}")
+
+
+@app.command()
+def embed(db: DbOption = DEFAULT_DB) -> None:
+    """Embed the snapshot for semantic search (fastembed; downloads the model once)."""
+    from pokedex.search import build_embeddings
+
+    count = build_embeddings(db)
+    typer.echo(f"Embedded {count} Pokémon -> {db}")
 
 
 @app.command()
