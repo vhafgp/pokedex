@@ -1,5 +1,5 @@
-"""Raw Anthropic tool-use loop, modelled without the SDK so it runs keyless and is tested with a
-fake client. Mirrors the contract: stop_reason 'tool_use' -> run tools -> tool_result -> repeat."""
+"""Raw tool-use agent loop, modelled without an SDK so it runs offline and is tested with a fake
+client. Mirrors the contract: stop_reason 'tool_use' -> run tools -> tool_result -> repeat."""
 
 from __future__ import annotations
 

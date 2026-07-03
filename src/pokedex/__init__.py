@@ -1,3 +1,3 @@
-"""A study Pokédex: typed PokéAPI client laddering up to a Claude tool-using agent."""
+"""A study Pokédex: typed PokéAPI client laddering up to an MCP tool server."""
 
 __version__ = "0.1.0"

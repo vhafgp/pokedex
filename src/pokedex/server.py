@@ -1,5 +1,5 @@
-"""Pokédex MCP server: exposes the snapshot as Claude tools over stdio, for Claude Code/Desktop on
-a subscription (no API key). Snapshot path comes from POKEDEX_DB or the store default."""
+"""Pokédex MCP server: exposes the snapshot as tools over stdio for any MCP client. Snapshot path
+comes from POKEDEX_DB or the store default."""
 
 from __future__ import annotations
 
